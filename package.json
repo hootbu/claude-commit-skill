@@ -1,0 +1,34 @@
+{
+  "name": "@hootbu/commit-skill",
+  "version": "1.0.0",
+  "description": "Claude Code skill for intelligent Conventional Commits with breaking-change and issue-reference support",
+  "bin": {
+    "commit-skill": "bin/install.js"
+  },
+  "files": [
+    "SKILL.md",
+    "references/",
+    "bin/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hootbu/claude-commit-skill.git"
+  },
+  "homepage": "https://github.com/hootbu/claude-commit-skill#readme",
+  "bugs": {
+    "url": "https://github.com/hootbu/claude-commit-skill/issues"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "skill",
+    "git",
+    "commit",
+    "conventional-commits"
+  ],
+  "author": "hootbu",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14"
+  }
+}
