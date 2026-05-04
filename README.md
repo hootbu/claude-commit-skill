@@ -5,7 +5,6 @@
 **Intelligent Conventional Commits for Claude Code, in one command.**
 
 [![npm version](https://img.shields.io/npm/v/@hootbu/commit-skill?color=cb3837&logo=npm&label=npm)](https://www.npmjs.com/package/@hootbu/commit-skill)
-[![npm downloads](https://img.shields.io/npm/dm/@hootbu/commit-skill?color=informational)](https://www.npmjs.com/package/@hootbu/commit-skill)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-skill-d97757)](https://claude.com/claude-code)
 [![GitHub stars](https://img.shields.io/github/stars/hootbu/claude-commit-skill?logo=github&color=222)](https://github.com/hootbu/claude-commit-skill/stargazers)
