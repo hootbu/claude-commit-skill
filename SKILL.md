@@ -12,31 +12,33 @@ Create precise, well-structured git commits with automatic change analysis and o
 Before doing anything else, display this table to the user:
 
 ```
-/commit            Staged changes → single commit. Nothing staged → auto batch mode. (English)
-/commit --all      Analyze all changes, group into multiple logical commits. (English)
-/commit -tr        Commit in Turkish / Türkçe commit mesajı
-/commit -en        Commit in English (default)
-/commit --all -tr  Batch mode in Turkish
-/commit --help     Show this help table and exit
-/commit -h         Show this help table and exit (short form)
+/commit                Staged changes → single commit. Nothing staged → auto batch mode. (English)
+/commit --all          Analyze all changes, group into multiple logical commits. (English)
+/commit -tr            Commit in Turkish / Türkçe commit mesajı
+/commit -en            Commit in English (default)
+/commit --all -tr      Batch mode in Turkish
+/commit --push         Commit, then auto-push to origin (no flag → asks first)
+/commit --all --push   Batch mode, then auto-push at the end
+/commit --help / -h    Show this help table and exit
 ```
 
 If the user passed `--help` or `-h`, **stop here** — do not proceed to the commit flow. The help table above is the complete output.
 
 Otherwise, proceed to gather context.
 
-## Step 0.5: Determine Language
+## Step 0.5: Parse Flags
 
-Parse the flags from the user's input:
+Parse all flags from the user's input:
 
 | Flag | Behavior |
 |------|----------|
 | `--help` / `-h` | Show help and exit |
-| `-tr` | Türkçe |
-| `-en` | English |
-| No flag | English (default) |
+| `--all` | Batch mode (group all changes into multiple commits) |
+| `--push` | Auto-push after commit(s); without this flag, the skill asks before pushing |
+| `-tr` | Turkish commit messages |
+| `-en` | English commit messages (default) |
 
-The language flag can be combined with `--all` (e.g., `/commit --all -tr`). Store the chosen language for use in commit message generation.
+Flags can be combined (e.g., `/commit --all --push -tr`). Store all chosen flags for the steps that follow.
 
 ## Step 1: Gather Context
 
@@ -226,6 +228,8 @@ EOF
 
 Run `git status` after to verify success and display the result.
 
+Then proceed to **Push** (below).
+
 ## Batch Commit Mode
 
 ### Step 1: Inventory Changes
@@ -292,6 +296,33 @@ Created 3 commits:
   def5678 fix(db): correct meeting balance view
   ghi9012 chore: update dependencies
 ```
+
+Then proceed to **Push** (below).
+
+## Push
+
+After commit(s) succeed, push behavior depends on the `--push` flag:
+
+| Flag state | Behavior |
+|------------|----------|
+| `--push` present | Push immediately, no prompt |
+| `--push` absent | Ask: `Push N new commit(s) to origin/<branch>? (y/N)` — empty input or `n` skips |
+
+**Push command selection:**
+- Branch has upstream tracking set: `git push`
+- Branch has no upstream: `git push -u origin <branch>` (sets upstream)
+- Detached HEAD: skip with message `Cannot push from detached HEAD`
+- No remote named `origin`: skip with message `No 'origin' remote configured`
+
+**On failure (rejected, non-fast-forward, network error, pre-push hook):**
+- Report the git error verbatim
+- Do NOT retry automatically
+- Do NOT use `--force` or any force variant unless the user explicitly requests it later
+- Tell the user to resolve the issue and run `git push` themselves
+
+**On success:** show a one-line summary, e.g. `Pushed to origin/main (39d4112..a1b2c3d)`.
+
+If the user declines the prompt, end with `Skipped push. Run \`git push\` when ready.`
 
 ## Edge Cases
 

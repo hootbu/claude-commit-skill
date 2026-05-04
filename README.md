@@ -11,6 +11,7 @@ A Claude Code skill that analyzes your git changes and creates well-structured c
 - **Multi-language support** — commit messages in English (default) or Turkish via `-tr` / `-en` flags
 - **Breaking change support** — appends `!` to type and adds `BREAKING CHANGE:` footer when API/schema/config breaks backward compatibility
 - **Issue references** — extracts `Closes #123` / `Refs: PROJ-456` footers from branch names automatically
+- **Optional push** — `--push` flag pushes after commit; without it, the skill asks before pushing
 - **Edge case handling** — binary files, large diffs, lock files, merge conflicts, pre-commit hook failures
 
 ## Installation
@@ -42,6 +43,8 @@ After copying, restart Claude Code.
 | `/commit -tr` | Türkçe commit mesajı |
 | `/commit -en` | English commit (default) |
 | `/commit --all -tr` | Batch mode in Turkish |
+| `/commit --push` | Commit, then auto-push to origin (without this flag, asks first) |
+| `/commit --all --push` | Batch mode, then auto-push at the end |
 | `/commit --help` / `-h` | Show available commands and flags |
 
 ### Single Commit Mode
