@@ -308,6 +308,14 @@ After commit(s) succeed, push behavior depends on the `--push` flag:
 | `--push` present | Push immediately, no prompt |
 | `--push` absent | Ask: `Push N new commit(s) to origin/<branch>? (y/N)` — empty input or `n` skips |
 
+**Always announce the target branch before pushing**, even with `--push`:
+
+```
+Pushing to origin/<branch>...
+```
+
+This one-line announcement is required so the user can interrupt if they're on the wrong branch (e.g. `main` when they meant a feature branch). The announcement comes from `git branch --show-current` — never invent the branch name.
+
 **Push command selection:**
 - Branch has upstream tracking set: `git push`
 - Branch has no upstream: `git push -u origin <branch>` (sets upstream)
